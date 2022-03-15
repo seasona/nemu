@@ -732,7 +732,7 @@ static bool virtqueue_map_desc(VirtIODevice *vdev, unsigned int *p_num_sg,
                                "indirect table");
             goto out;
         }
-
+        // 将GPA映射为HVA
         iov[num_sg].iov_base = dma_memory_map(vdev->dma_as, pa, &len,
                                               is_write ?
                                               DMA_DIRECTION_FROM_DEVICE :
@@ -900,6 +900,7 @@ void *virtqueue_pop(VirtQueue *vq, size_t sz)
     }
 
     /* Collect all the descriptors */
+    // 将desc映射到iovec
     do {
         bool map_ok;
 
@@ -935,6 +936,7 @@ void *virtqueue_pop(VirtQueue *vq, size_t sz)
     }
 
     /* Now copy what we have collected and mapped */
+    // 将iovec组装到element
     elem = virtqueue_alloc_element(sz, out_num, in_num);
     elem->index = head;
     for (i = 0; i < out_num; i++) {

@@ -2848,6 +2848,7 @@ static void vfio_realize(PCIDevice *pdev, Error **errp)
 
     trace_vfio_realize(vdev->vbasedev.name, groupid);
 
+    // 打开/dev/vfio/$groupid设备，并连接到container
     group = vfio_get_group(groupid, pci_device_iommu_address_space(pdev), errp);
     if (!group) {
         goto error;

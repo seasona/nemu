@@ -3510,6 +3510,7 @@ int main(int argc, char **argv, char **envp)
         exit(1);
     }
 
+    // 从启动参数中创建chardev设备
     if (qemu_opts_foreach(qemu_find_opts("chardev"),
                           chardev_init_func, NULL, NULL)) {
         exit(1);

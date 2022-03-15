@@ -55,6 +55,7 @@ static ssize_t flush_buf(VirtIOSerialPort *port,
         return len;
     }
 
+    // 写入chardev后端
     ret = qemu_chr_fe_write(&vcon->chr, buf, len);
     trace_virtio_console_flush_buf(port->id, len, ret);
 
