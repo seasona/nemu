@@ -1409,6 +1409,7 @@ static int kvm_init(MachineState *ms)
     int type = 0;
     const char *kvm_type;
 
+    // s指向MachineState中的accelerator指针
     s = KVM_STATE(ms->accelerator);
 
     /*
@@ -1554,6 +1555,7 @@ static int kvm_init(MachineState *ms)
     kvm_ioeventfd_any_length_allowed =
         (kvm_check_extension(s, KVM_CAP_IOEVENTFD_ANY_LENGTH) > 0);
 
+    // 赋值到全局变量kvm_state
     kvm_state = s;
 
     /*

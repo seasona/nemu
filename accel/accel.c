@@ -54,8 +54,10 @@ static int accel_init_machine(AccelClass *acc, MachineState *ms)
 {
     ObjectClass *oc = OBJECT_CLASS(acc);
     const char *cname = object_class_get_name(oc);
+    // 此时分配KVMSTATE对象所对应的内存
     AccelState *accel = ACCEL(object_new(cname));
     int ret;
+    // 赋值虚拟机machine所对应的accelerator指针
     ms->accelerator = accel;
     *(acc->allowed) = true;
     ret = acc->init_machine(ms);

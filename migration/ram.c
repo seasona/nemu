@@ -825,6 +825,7 @@ uint64_t ram_pagesize_summary(void)
     return summary;
 }
 
+// 将ram_list中的脏页复制到热迁移的迁移位图migration_bitmap_rcu->bmapz中
 static void migration_bitmap_sync(RAMState *rs)
 {
     RAMBlock *block;

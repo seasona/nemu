@@ -1,5 +1,7 @@
 {
     "files.associations": {
-        "osdep.h": "c"
+        "osdep.h": "c",
+        "virtio_mmio.h": "c",
+        "qemu-options-wrapper.h": "c"
     }
 }

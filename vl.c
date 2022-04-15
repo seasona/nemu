@@ -1042,6 +1042,7 @@ static void smp_parse(QemuOpts *opts)
             cores = cores > 0 ? cores : 1;
             threads = threads > 0 ? threads : 1;
             if (cpus == 0) {
+                // vcpu个数一般都是计算得来
                 cpus = cores * threads * sockets;
             }
         } else if (cores == 0) {
