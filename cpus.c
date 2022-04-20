@@ -934,7 +934,8 @@ static void qemu_wait_io_event_common(CPUState *cpu)
 }
 
 static void qemu_wait_io_event(CPUState *cpu)
-{
+{   
+    //@moji 一开始cpu_thread为空，一直在循环
     while (cpu_thread_is_idle(cpu)) {
         qemu_cond_wait(cpu->halt_cond, &qemu_global_mutex);
     }
@@ -968,12 +969,14 @@ static void *qemu_kvm_cpu_thread_fn(void *arg)
     qemu_cond_signal(&qemu_cpu_cond);
 
     do {
+        //@moji 一开始cpu->stopped=true
         if (cpu_can_run(cpu)) {
             r = kvm_cpu_exec(cpu);
             if (r == EXCP_DEBUG) {
                 cpu_handle_guest_debug(cpu);
             }
         }
+        //@moji 在该处阻塞
         qemu_wait_io_event(cpu);
     } while (!cpu->unplug || cpu_can_run(cpu));
 
@@ -1041,6 +1044,7 @@ static void qemu_cpu_kick_thread(CPUState *cpu)
 
 void qemu_cpu_kick(CPUState *cpu)
 {
+    //@moji 唤醒所有的vcpu
     qemu_cond_broadcast(cpu->halt_cond);
     qemu_cpu_kick_thread(cpu);
 }
@@ -1127,6 +1131,7 @@ void cpu_resume(CPUState *cpu)
     qemu_cpu_kick(cpu);
 }
 
+//@moji 唤醒所有vcpu
 void resume_all_vcpus(void)
 {
     CPUState *cpu;
@@ -1180,7 +1185,7 @@ void qemu_init_vcpu(CPUState *cpu)
 {
     cpu->nr_cores = smp_cores;
     cpu->nr_threads = smp_threads;
-    cpu->stopped = true;
+    cpu->stopped = true; //@moji 一开始cpu->stopped=true
 
     if (!cpu->as) {
         /* If the target cpu hasn't set up any address spaces itself,

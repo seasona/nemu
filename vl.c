@@ -3788,7 +3788,7 @@ int main(int argc, char **argv, char **envp)
             exit(1);
         }
     } else if (autostart) {
-        vm_start();
+        vm_start(); //@moji 唤醒阻塞的vcpu，正式启动
     }
 
     os_setup_post();

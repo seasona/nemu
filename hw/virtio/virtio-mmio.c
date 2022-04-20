@@ -268,6 +268,7 @@ static void virtio_mmio_write(void *opaque, hwaddr offset, uint64_t value,
         if (value == 0) {
             virtio_reset(vdev);
         } else {
+            //@moji virtio驱动通过mmio的方式设置vring对应的guest内存地址
             virtio_queue_set_addr(vdev, vdev->queue_sel,
                                   value << proxy->guest_page_shift);
         }
